@@ -2,7 +2,7 @@ import axios from "axios";
 import {create} from "zustand"
 import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast"
-import { LogOut } from "lucide-react";
+
 
 
 export const useAuthStore = create((set) => ({
@@ -40,17 +40,16 @@ export const useAuthStore = create((set) => ({
       
       
 
-    }
+    },
 
-    Logout: async () =>{
+    logout: async () => {
       try {
         await axiosInstance.post("/auth/logout");
-        set({authUser: null});
+        set({ authUser: null });
         toast.success("Logged out successfully");
-
+        get().disconnectSocket();
       } catch (error) {
         toast.error(error.response.data.message);
-        
       }
-    }
+    },
 }));
