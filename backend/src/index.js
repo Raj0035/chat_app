@@ -1,31 +1,30 @@
 import express from "express";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import cookieParser from 'cookie-parser';
-import cors from 'cors'
+import cors from 'cors';
+import bodyParser from 'body-parser';  // import body-parser for custom size limits
 
-import authRoutes from  "./routes/auth.route.js";
+import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 
-dotenv.config()
+dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
-app.use(express.json());
+app.use(bodyParser.json({ limit: '50mb' }));  
 app.use(cookieParser());
 app.use(cors({
-    orgin:"http://localhost:5173",
-    Credential:true,
-
-}))
+    origin: "http://localhost:5173",
+    credentials: true,
+}));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
 
 app.listen(PORT, () => {
-    console.log("server is running on PORT:" + PORT); 
-    connectDB()
+    console.log("server is running on PORT:" + PORT);
+    connectDB();
 });
- 
