@@ -27,7 +27,7 @@ const App = () => {
 
   return (
    
-      <div data-theme="retro"> 
+      <div data-theme="capcake"> 
         <Navbar />
 
         <Routes>
